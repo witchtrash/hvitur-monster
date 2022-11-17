@@ -1,4 +1,5 @@
 import { Global, css } from '@emotion/react';
+import { Scene } from 'components/Scene';
 
 const styles = css`
   body {
@@ -10,7 +11,7 @@ const styles = css`
 const Index = () => (
   <main>
     <Global styles={styles} />
-    hello
+    <Scene />
   </main>
 );
 
