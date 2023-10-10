@@ -1,14 +1,8 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
 import { MonsterCan } from 'components/MonsterCan';
-import {
-  Stage,
-  Float,
-  OrbitControls,
-  Center,
-  Sparkles,
-  ContactShadows,
-} from '@react-three/drei';
+import { Sparkles } from 'components/Sparkles';
+import { Stage, Float, OrbitControls, Center } from '@react-three/drei';
 
 import styled from '@emotion/styled';
 
@@ -45,7 +39,7 @@ export const Scene = () => {
         <OrbitControls
           autoRotateSpeed={0.85}
           zoomSpeed={0.75}
-          maxDistance={6}
+          maxDistance={8}
           minDistance={2}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 2}
@@ -54,7 +48,7 @@ export const Scene = () => {
           autoRotate
         />
 
-        <Center>
+        <Center position={[0, -2, 0]}>
           <Stage shadows={false}>
             <directionalLight color="#00ffff" position={[0, 0, 5]} />
             <Float
@@ -63,15 +57,7 @@ export const Scene = () => {
               floatingRange={[0.5, 1.0]}
             >
               <MonsterCan />
-              <Sparkles scale={12} size={2} speed={0} noise={0} />
-              <Sparkles scale={8} size={3} speed={0} noise={0} />
-              <Sparkles
-                scale={2.5}
-                size={4}
-                speed={0.1}
-                position={[0, 1.5, 0]}
-              />
-              <Sparkles scale={4} size={2} />
+              <Sparkles />
             </Float>
           </Stage>
         </Center>
