@@ -1,5 +1,5 @@
-import { Global, css } from '@emotion/react';
-import { Scene } from 'components/Scene';
+import { css, Global } from "@emotion/react";
+import { Scene } from "components/Scene";
 
 const styles = css`
   body {
@@ -9,8 +9,8 @@ const styles = css`
 `;
 
 export const App = () => (
-  <main>
-    <Global styles={styles} />
-    <Scene />
-  </main>
+	<main>
+		<Global styles={styles} />
+		<Scene />
+	</main>
 );

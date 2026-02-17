@@ -1,6 +1,6 @@
-import { useProgress } from '@react-three/drei';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { useProgress } from "@react-three/drei";
 
 const Overlay = styled.div<{ visible: boolean }>`
   position: absolute;
@@ -14,8 +14,8 @@ const Overlay = styled.div<{ visible: boolean }>`
   pointer-events: none;
 
   ${({ visible }) =>
-    !visible &&
-    css`
+		!visible &&
+		css`
       opacity: 0;
     `}
 `;
@@ -44,14 +44,14 @@ const Label = styled.span`
 `;
 
 export const Loader = () => {
-  const { progress, active } = useProgress();
+	const { progress, active } = useProgress();
 
-  return (
-    <Overlay visible={active}>
-      <Label>{Math.round(progress)}%</Label>
-      <Bar>
-        <Fill progress={progress} />
-      </Bar>
-    </Overlay>
-  );
+	return (
+		<Overlay visible={active}>
+			<Label>{Math.round(progress)}%</Label>
+			<Bar>
+				<Fill progress={progress} />
+			</Bar>
+		</Overlay>
+	);
 };
