@@ -6,6 +6,8 @@ import {
 	Environment,
 	Float,
 	Lightformer,
+	Select,
+	Stars,
 	Stats,
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -14,8 +16,7 @@ import { Camera } from "components/Camera";
 import { Loader } from "components/Loader";
 import { MonsterCan } from "components/MonsterCan";
 import { Sparkles } from "components/Sparkles";
-import { KernelSize, Resolution } from "postprocessing";
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
 import * as THREE from "three";
 
 const Container = styled.div`
@@ -24,10 +25,10 @@ const Container = styled.div`
   background-size: 300% 300%;
   background-image: linear-gradient(
     -45deg,
-    rgba(59, 173, 227, 1) 0%,
-    rgba(87, 111, 230, 1) 25%,
+    #b63be3 0%,
+    #8e57e6 25%,
     rgba(152, 68, 183, 1) 51%,
-    rgba(255, 53, 127, 1) 100%
+    #ff3572 100%
   );
   animation: AnimateBG 20s ease infinite;
 
@@ -45,6 +46,9 @@ const Container = styled.div`
 `;
 
 const SceneContent = () => {
+	const ringLightRef = useRef(null);
+	const rectLightRef = useRef(null);
+	const directionalLightRef = useRef(null);
 	return (
 		<>
 			{import.meta.env.DEV ? <Stats /> : null}
@@ -57,12 +61,14 @@ const SceneContent = () => {
 					environmentIntensity={1.4}
 				>
 					<Lightformer
-						intensity={0.5}
+						ref={ringLightRef}
+						form="ring"
+						intensity={1.0}
 						position={[2, 1, -3]}
 						rotation={[0, Math.PI / 2, 0]}
-						scale={[3, 3, 1]}
 					/>
 					<Lightformer
+						ref={rectLightRef}
 						intensity={0.5}
 						position={[-2, 1, -3]}
 						rotation={[0, -Math.PI / 2, 0]}
@@ -71,6 +77,7 @@ const SceneContent = () => {
 				</Environment>
 
 				<directionalLight
+					ref={directionalLightRef}
 					color="#00ffff"
 					position={[0, 0, 5]}
 					intensity={1.0}
@@ -82,36 +89,40 @@ const SceneContent = () => {
 						floatIntensity={1}
 						floatingRange={[0.5, 1.0]}
 					>
-						<MonsterCan />
+						<Select>
+							<MonsterCan />
+						</Select>
 					</Float>
 				</Center>
 
 				<Sparkles />
 
-				<Clouds material={THREE.MeshBasicMaterial}>
-					<Cloud
-						position={[0, -6.5, 0]}
-						bounds={[12, 0.5, 12]}
-						segments={120}
-						volume={10}
-						opacity={0.1}
-						fade={12}
-						speed={0.15}
-						growth={8}
-						color="#c0c0d0"
-					/>
-				</Clouds>
+				<Select>
+					<Clouds material={THREE.MeshBasicMaterial}>
+						<Cloud
+							position={[0, -3, 0]}
+							bounds={[2, 0.5, 2]}
+							segments={50}
+							volume={4}
+							opacity={0.1}
+							speed={0.05}
+							color="#c0c0ff"
+						/>
+					</Clouds>
+				</Select>
+
+				<Stars
+					radius={100}
+					depth={50}
+					count={8000}
+					factor={4}
+					saturation={0}
+					fade
+					speed={1}
+				/>
 
 				<EffectComposer>
-					<Bloom
-						intensity={1.0}
-						kernelSize={KernelSize.LARGE}
-						luminanceThreshold={1.9}
-						luminanceSmoothing={0.025}
-						mipmapBlur={false}
-						resolutionX={Resolution.AUTO_SIZE}
-						resolutionY={Resolution.AUTO_SIZE}
-					/>
+					<Bloom mipmapBlur luminanceThreshold={0.2} luminanceSmoothing={0.9} />
 				</EffectComposer>
 			</Suspense>
 		</>

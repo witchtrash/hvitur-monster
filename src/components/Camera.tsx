@@ -39,7 +39,7 @@ export const Camera = () => {
 			ref={ref}
 			autoRotateSpeed={0}
 			zoomSpeed={0.75}
-			maxDistance={12}
+			maxDistance={8}
 			minDistance={8}
 			minPolarAngle={Math.PI / 4}
 			maxPolarAngle={Math.PI / 2}
