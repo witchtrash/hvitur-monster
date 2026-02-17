@@ -1,4 +1,3 @@
-import React from 'react';
 import { Canvas } from '@react-three/fiber';
 import { MonsterCan } from 'components/MonsterCan';
 import { Sparkles } from 'components/Sparkles';

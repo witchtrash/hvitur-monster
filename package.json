@@ -2,18 +2,19 @@
   "name": "hvitur-monster",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "bun --bun next dev",
-    "build": "bun --bun next build",
-    "start": "bun --bun next start",
-    "format": "bun --bun prettier --write ./"
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun vite build",
+    "preview": "bunx --bun vite preview",
+    "format": "bun --bun prettier --write ./",
+    "typecheck": "bun --bun tsc"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
-    "next": "^16.1.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "three": "^0.182.0",
@@ -24,9 +25,9 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.182.0",
-    "eslint": "10.0.0",
-    "eslint-config-next": "16.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
     "prettier": "^3.8.1",
+    "vite": "^6.3.5",
     "@types/bun": "^1.3.9"
   },
   "peerDependencies": {
