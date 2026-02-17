@@ -14,6 +14,7 @@ import { Camera } from "components/Camera";
 import { Loader } from "components/Loader";
 import { MonsterCan } from "components/MonsterCan";
 import { Sparkles } from "components/Sparkles";
+import { KernelSize, Resolution } from "postprocessing";
 import { Suspense } from "react";
 import * as THREE from "three";
 
@@ -75,7 +76,7 @@ const SceneContent = () => {
 					intensity={1.0}
 				/>
 
-				<Center position={[0, -2, 0]}>
+				<Center position={[0, -1, 0]}>
 					<Float
 						rotationIntensity={1}
 						floatIntensity={1}
@@ -85,16 +86,8 @@ const SceneContent = () => {
 					</Float>
 				</Center>
 
-				<EffectComposer stencilBuffer={false}>
-					<Bloom
-						mipmapBlur
-						luminanceThreshold={1.2}
-						luminanceSmoothing={0.2}
-						intensity={0.4}
-						radius={0.4}
-					/>
-				</EffectComposer>
 				<Sparkles />
+
 				<Clouds material={THREE.MeshBasicMaterial}>
 					<Cloud
 						position={[0, -6.5, 0]}
@@ -108,6 +101,18 @@ const SceneContent = () => {
 						color="#c0c0d0"
 					/>
 				</Clouds>
+
+				<EffectComposer>
+					<Bloom
+						intensity={1.0}
+						kernelSize={KernelSize.LARGE}
+						luminanceThreshold={1.9}
+						luminanceSmoothing={0.025}
+						mipmapBlur={false}
+						resolutionX={Resolution.AUTO_SIZE}
+						resolutionY={Resolution.AUTO_SIZE}
+					/>
+				</EffectComposer>
 			</Suspense>
 		</>
 	);

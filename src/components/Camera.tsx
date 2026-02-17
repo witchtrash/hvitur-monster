@@ -4,8 +4,8 @@ import { useRef } from "react";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 const TARGET_SPEED = 0.65;
-const EASE_DURATION = 5;
-const PAUSE_DURATION = 10;
+const EASE_DURATION = 10;
+const PAUSE_DURATION = 15;
 
 export const Camera = () => {
 	const ref = useRef<OrbitControlsImpl>(null);
