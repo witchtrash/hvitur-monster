@@ -6,7 +6,6 @@ import {
 	Environment,
 	Float,
 	Lightformer,
-	Select,
 	Stars,
 	Stats,
 } from "@react-three/drei";
@@ -16,7 +15,7 @@ import { Camera } from "components/Camera";
 import { Loader } from "components/Loader";
 import { MonsterCan } from "components/MonsterCan";
 import { Sparkles } from "components/Sparkles";
-import { Suspense, useRef } from "react";
+import { Suspense } from "react";
 import * as THREE from "three";
 
 const Container = styled.div`
@@ -46,9 +45,6 @@ const Container = styled.div`
 `;
 
 const SceneContent = () => {
-	const ringLightRef = useRef(null);
-	const rectLightRef = useRef(null);
-	const directionalLightRef = useRef(null);
 	return (
 		<>
 			{import.meta.env.DEV ? <Stats /> : null}
@@ -61,14 +57,12 @@ const SceneContent = () => {
 					environmentIntensity={1.4}
 				>
 					<Lightformer
-						ref={ringLightRef}
 						form="ring"
 						intensity={1.0}
 						position={[2, 1, -3]}
 						rotation={[0, Math.PI / 2, 0]}
 					/>
 					<Lightformer
-						ref={rectLightRef}
 						intensity={0.5}
 						position={[-2, 1, -3]}
 						rotation={[0, -Math.PI / 2, 0]}
@@ -77,7 +71,6 @@ const SceneContent = () => {
 				</Environment>
 
 				<directionalLight
-					ref={directionalLightRef}
 					color="#00ffff"
 					position={[0, 0, 5]}
 					intensity={1.0}
@@ -89,27 +82,23 @@ const SceneContent = () => {
 						floatIntensity={1}
 						floatingRange={[0.5, 1.0]}
 					>
-						<Select>
-							<MonsterCan />
-						</Select>
+						<MonsterCan />
 					</Float>
 				</Center>
 
 				<Sparkles />
 
-				<Select>
-					<Clouds material={THREE.MeshBasicMaterial}>
-						<Cloud
-							position={[0, -3, 0]}
-							bounds={[2, 0.5, 2]}
-							segments={50}
-							volume={4}
-							opacity={0.1}
-							speed={0.05}
-							color="#c0c0ff"
-						/>
-					</Clouds>
-				</Select>
+				<Clouds material={THREE.MeshBasicMaterial}>
+					<Cloud
+						position={[0, -3, 0]}
+						bounds={[2, 0.5, 2]}
+						segments={50}
+						volume={4}
+						opacity={0.1}
+						speed={0.05}
+						color="#c0c0ff"
+					/>
+				</Clouds>
 
 				<Stars
 					radius={100}
@@ -120,10 +109,6 @@ const SceneContent = () => {
 					fade
 					speed={1}
 				/>
-
-				<EffectComposer>
-					<Bloom mipmapBlur luminanceThreshold={0.2} luminanceSmoothing={0.9} />
-				</EffectComposer>
 			</Suspense>
 		</>
 	);
@@ -134,6 +119,9 @@ export const Scene = () => {
 		<Container>
 			<Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
 				<SceneContent />
+				<EffectComposer>
+					<Bloom mipmapBlur luminanceThreshold={0.2} luminanceSmoothing={0.9} />
+				</EffectComposer>
 			</Canvas>
 			<Loader />
 		</Container>
