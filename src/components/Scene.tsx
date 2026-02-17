@@ -47,8 +47,8 @@ const Container = styled.div`
 const SceneContent = () => {
 	return (
 		<>
+			{import.meta.env.DEV ? <Stats /> : null}
 			<Camera />
-			<Stats />
 
 			<Suspense fallback={null}>
 				<Environment
