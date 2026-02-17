@@ -1,7 +1,12 @@
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { MonsterCan } from 'components/MonsterCan';
 import { Sparkles } from 'components/Sparkles';
-import { Stage, Float, OrbitControls, Center } from '@react-three/drei';
+import { Loader } from 'components/Loader';
+import { Camera } from 'components/Camera';
+import { Environment, Lightformer, Float, Center, Stats, Clouds, Cloud } from '@react-three/drei';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import * as THREE from 'three';
 
 import styled from '@emotion/styled';
 
@@ -31,36 +36,76 @@ const Container = styled.div`
   }
 `;
 
+const SceneContent = () => {
+  return (
+    <>
+      <Camera />
+      <Stats />
+
+      <Suspense fallback={null}>
+        <Environment preset="city" background={false} environmentIntensity={1.4}>
+          <Lightformer
+            intensity={0.5}
+            position={[2, 1, -3]}
+            rotation={[0, Math.PI / 2, 0]}
+            scale={[3, 3, 1]}
+          />
+          <Lightformer
+            intensity={0.5}
+            position={[-2, 1, -3]}
+            rotation={[0, -Math.PI / 2, 0]}
+            scale={[3, 3, 1]}
+          />
+        </Environment>
+
+        <directionalLight color="#00ffff" position={[0, 0, 5]} intensity={1.0} />
+
+        <Center position={[0, -2, 0]}>
+          <Float
+            rotationIntensity={1}
+            floatIntensity={1}
+            floatingRange={[0.5, 1.0]}
+          >
+            <MonsterCan />
+            <Sparkles />
+          </Float>
+        </Center>
+
+        <Clouds material={THREE.MeshBasicMaterial}>
+          <Cloud
+            position={[0, -4.5, 0]}
+            bounds={[12, 0.5, 6]}
+            segments={50}
+            volume={10}
+            opacity={0.1}
+            fade={12}
+            speed={0.15}
+            growth={8}
+            color="#c0c0d0"
+          />
+        </Clouds>
+
+        <EffectComposer multisampling={0} stencilBuffer={false}>
+          <Bloom
+            mipmapBlur
+            luminanceThreshold={1.2}
+            luminanceSmoothing={0.2}
+            intensity={0.4}
+            radius={0.4}
+          />
+        </EffectComposer>
+      </Suspense>
+    </>
+  );
+};
+
 export const Scene = () => {
   return (
     <Container>
-      <Canvas>
-        <OrbitControls
-          autoRotateSpeed={0.85}
-          zoomSpeed={0.75}
-          maxDistance={8}
-          minDistance={2}
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={Math.PI / 2}
-          enablePan={false}
-          enableDamping
-          autoRotate
-        />
-
-        <Center position={[0, -2, 0]}>
-          <Stage shadows={false}>
-            <directionalLight color="#00ffff" position={[0, 0, 5]} />
-            <Float
-              rotationIntensity={1}
-              floatIntensity={1}
-              floatingRange={[0.5, 1.0]}
-            >
-              <MonsterCan />
-              <Sparkles />
-            </Float>
-          </Stage>
-        </Center>
+      <Canvas camera={{ position: [0, 0, 5], fov: 50 }} >
+        <SceneContent />
       </Canvas>
+      <Loader />
     </Container>
   );
 };
